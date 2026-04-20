@@ -1,0 +1,32 @@
+{
+  "name": "pangio-software/pangio-core",
+  "description": "A lightweight framework for developing PHP web applications and REST APIs.",
+  "type": "library",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "PANGIO Software",
+      "email": "info@pangio.de"
+    },
+    {
+      "name": "Julius Derigs",
+      "email": "derigs@pangio.de"
+    }
+  ],
+  "require": {
+    "php": "^8.3",
+    "ext-pdo": "*",
+    "vlucas/phpdotenv": "^5.6"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pangio\\Core\\": "src/",
+      "App\\": "app/"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
