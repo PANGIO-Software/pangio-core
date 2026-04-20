@@ -21,8 +21,12 @@ class Router {
             $method = $value[1];
             $key = $key === 0 ? '' : $key;
 
-            $route = self::router($key, static function ($param = null) use ($controller, $method) {
+            $route = self::router($key, static function (mixed $param = null) use ($controller, $method) {
                 $class = new $controller;
+
+                if (is_numeric($param)) {
+                    $param = (int) $param;
+                }
                 if ($param !== null) {
                     $class->$method($param);
                 } else {
@@ -43,6 +47,18 @@ class Router {
     }
 
     /**
+     * Builds a URL out of the config baseURL and the given URI and returns it.
+     *
+     * @param string $uri
+     * @return string
+     */
+    public static function baseURL(string $uri = '') :string {
+        $baseURL = $_ENV['BASE_URL'] ?? Config::get('app.baseURL');
+
+        return $baseURL . $uri;
+    }
+
+    /**
      * Matches the current request URL against a defined route pattern and executes the associated callback with any
      * captured parameters.
      *
@@ -52,7 +68,7 @@ class Router {
      */
     private static function router(string $route, mixed $callback) :bool {
         $fullURL = self::getFullURL();
-        $urlParts = explode('/', trim(str_replace(baseURL(), '', $fullURL), '/'));
+        $urlParts = explode('/', trim(str_replace(self::baseURL(), '', $fullURL), '/'));
         $requestedRoute = implode('/', $urlParts);
         $routeRegex = preg_replace('/:[^\/]+/', '([^\/]+)', $route);
 
@@ -70,6 +86,6 @@ class Router {
      * @return string
      */
     private static function getFullURL() :string {
-        return baseURL($_SERVER['REQUEST_URI'] ?? '/');
+        return self::baseURL($_SERVER['REQUEST_URI'] ?? '/');
     }
 }
