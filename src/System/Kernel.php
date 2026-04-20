@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Pangio\Core\System;
 
+use Pangio\Core\Http\Router;
 use Dotenv\Dotenv;
 
 class Kernel {
@@ -30,6 +31,7 @@ class Kernel {
         self::loadEnv();
         self::loadConfig();
         self::loadSession();
+        self::runRouter();
 
         self::$booted = true;
     }
@@ -66,5 +68,14 @@ class Kernel {
      */
     private static function loadSession() :void {
         Session::start();
+    }
+
+    /**
+     * Executes the routing.
+     *
+     * @return void
+     */
+    private static function runRouter() :void {
+        Router::run();
     }
 }
