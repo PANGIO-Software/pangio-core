@@ -63,3 +63,28 @@ if (!function_exists('dataGet')) {
         return $array;
     }
 }
+
+if (!function_exists('esc')) {
+    /**
+     * Escapes a string for safe HTML output by converting special characters to their corresponding HTML entities.
+     *
+     * @param string $string
+     * @return string
+     */
+    function esc(string $string) :string {
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
+    }
+}
+
+if (!function_exists('contains')) {
+    /**
+     * Checks whether a string contains a given substring.
+     *
+     * @param string $haystack
+     * @param string $needle
+     * @return bool
+     */
+    function contains(string $haystack, string $needle) :bool {
+        return str_contains($haystack, $needle);
+    }
+}
