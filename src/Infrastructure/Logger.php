@@ -10,7 +10,7 @@ class Logger {
     private string $logsDir;
 
     public function __construct() {
-        $this->logsDir = $_ENV['LOGS_DIR'] ?? Config::get('app.logsDir');
+        $this->logsDir = $_ENV['APP_LOGS_DIR'] ?? Config::get('app.logsDir');
     }
 
     /**

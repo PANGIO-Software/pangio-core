@@ -3,5 +3,6 @@
 return [
     'baseURL' => 'http://localhost:8000/',
     'environment' => 'development',
-    'locale' => 'en'
+    'locale' => 'en',
+    'logsDir' => '/storage/Logs/'
 ];

@@ -30,7 +30,7 @@ class Database {
     public function connect(): PDO {
         try {
             $connection = new PDO(
-                "mysql:host$this->host;dbname=$this->db", $this->user, $this->pass
+                "mysql:host=$this->host;dbname=$this->db", $this->user, $this->pass
             );
 
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
