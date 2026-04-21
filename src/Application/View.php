@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Pangio\Core\Application;
 
+use Pangio\Core\System\Session;
 use RuntimeException;
 
 class View {
@@ -19,6 +20,10 @@ class View {
 
         if (!is_file($viewPath)) {
             throw new RuntimeException("View not found: $viewPath");
+        }
+
+        if (Session::has('flashMessage')) {
+            $params['flashMessage'] = Session::getFlashMessage();
         }
 
         extract($params, EXTR_SKIP);

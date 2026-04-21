@@ -87,4 +87,31 @@ class Session {
             session_destroy();
         }
     }
+
+    /**
+     * Stores a temporary flash message inside the session.
+     *
+     * @param string $type
+     * @param string $message
+     * @return void
+     */
+    public static function setFlashMessage(string $type, string $message) :void {
+        self::set('flashMessage', [
+            'type' => esc($type),
+            'message' => esc($message)
+        ]);
+    }
+
+    /**
+     * Retrieves a temporary flash message.
+     *
+     * @return array|null
+     */
+    public static function getFlashMessage() :?array {
+        $flashMessage = self::get('flashMessage');
+
+        self::remove('flashMessage');
+
+        return $flashMessage;
+    }
 }
