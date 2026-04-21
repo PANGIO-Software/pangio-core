@@ -1,5 +1,6 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
 use Pangio\Core\System\Config;
 use Pangio\Core\Http\Router;
 
@@ -86,5 +87,24 @@ if (!function_exists('contains')) {
      */
     function contains(string $haystack, string $needle) :bool {
         return str_contains($haystack, $needle);
+    }
+}
+
+if (!function_exists('redirect')) {
+    /**
+     * Redirect to the given URL.
+     *
+     * @param string $destination
+     * @return void
+     */
+    #[NoReturn]function redirect(string $destination) :void {
+        if (contains($destination, 'http') || contains($destination, 'https')) {
+            header("Location: $destination");
+            exit;
+        }
+
+        header('Location: ' . baseURL($destination) );
+        exit;
+
     }
 }
