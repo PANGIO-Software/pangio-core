@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use Pangio\Core\Infrastructure\Logger;
 use Pangio\Core\Application\View;
 use Pangio\Core\System\Session;
 use Pangio\Core\System\Config;
@@ -12,6 +13,7 @@ class Base {
     protected Session $session;
     protected Request $request;
     protected Config $config;
+    protected Logger $logger;
     protected View $view;
 
     public function __construct() {
@@ -19,6 +21,7 @@ class Base {
         $this->session = new Session();
         $this->request = new Request();
         $this->config = new Config();
+        $this->logger = new Logger();
         $this->view = new View();
     }
 }
