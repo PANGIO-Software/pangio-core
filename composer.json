@@ -25,7 +25,10 @@
     "psr-4": {
       "Pangio\\Core\\": "src/",
       "App\\": "app/"
-    }
+    },
+    "files": [
+      "src/Helpers/functions.php"
+    ]
   },
   "minimum-stability": "stable",
   "prefer-stable": true
