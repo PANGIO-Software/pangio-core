@@ -14,7 +14,7 @@ class View {
      * @return string
      */
     public function render(string $view, array $params = []): string {
-        $viewDirectory = dirname(__DIR__, 2) . '/views';
+        $viewDirectory = dirname(__DIR__, 2) . '/app/Views/';
         $viewPath = $viewDirectory . '/' . $view . '.php';
 
         if (!is_file($viewPath)) {
