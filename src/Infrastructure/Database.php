@@ -18,7 +18,7 @@ class Database {
 
         $this->host = $_ENV['DB_HOST'] ?? $config['host'];
         $this->user = $_ENV['DB_USER'] ?? $config['user'];
-        $this->pass = $_ENV['DB_PASS'] ?? $config['password'];
+        $this->pass = $_ENV['DB_PASS'] ?? $config['pass'];
         $this->db   = $_ENV['DB_NAME'] ?? $config['name'];
     }
 
