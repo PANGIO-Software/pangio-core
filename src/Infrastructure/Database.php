@@ -23,15 +23,6 @@ class Database {
     private static string $pass;
     private static string $db;
 
-    public function __construct() {
-        $config = Config::get('database');
-
-        self::$host = $_ENV['DB_HOST'] ?? $config['host'];
-        self::$user = $_ENV['DB_USER'] ?? $config['user'];
-        self::$pass = $_ENV['DB_PASS'] ?? $config['pass'];
-        self::$db = $_ENV['DB_NAME'] ?? $config['name'];
-    }
-
     ####################################################################################################################
     # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
     ####################################################################################################################
@@ -42,6 +33,13 @@ class Database {
      * @return PDO
      */
     public static function connect(): PDO {
+        $config = Config::get('database');
+
+        self::$host = $_ENV['DB_HOST'] ?? $config['host'];
+        self::$user = $_ENV['DB_USER'] ?? $config['user'];
+        self::$pass = $_ENV['DB_PASS'] ?? $config['pass'];
+        self::$db = $_ENV['DB_NAME'] ?? $config['name'];
+
         try {
             $con = new PDO('mysql:host=' . self::$host . ';dbname=' . self::$db, self::$user, self::$pass);
 
