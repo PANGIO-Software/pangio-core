@@ -82,7 +82,7 @@ class Router {
      * @return bool
      */
     private static function router(string $route, mixed $callback) :bool {
-        $fullURL = self::getFullURL();
+        $fullURL = parse_url(self::getFullURL(), PHP_URL_PATH);
         $urlParts = explode('/', trim(str_replace(self::baseURL(), '', $fullURL), '/'));
         $requestedRoute = implode('/', $urlParts);
         $routeRegex = preg_replace('/:[^\/]+/', '([^\/]+)', $route);
