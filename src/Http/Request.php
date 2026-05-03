@@ -73,4 +73,29 @@ class Request {
 
         return true;
     }
+
+    /**
+     * Retrieves a specific HTTP header value from the server environment, normalizing its name and returning a default
+     * if not present.
+     *
+     * @param string $key
+     * @param mixed|null $default
+     * @return mixed
+     */
+    public static function header(string $key, mixed $default = null): mixed {
+        $key = strtoupper(str_replace('-', '_', $key));
+        $serverKey = 'HTTP_' . $key;
+
+        return $_SERVER[$serverKey] ?? $default;
+    }
+
+    /**
+     * Extracts and returns the Bearer token from the Authorization header, or an empty string if not present or invalid.
+     *
+     * @return string
+     */
+    public static function bearerToken(): string {
+        $authHeader = self::header('Authorization');
+        return $authHeader && str_starts_with($authHeader, 'Bearer ') ? substr($authHeader, 7) : '';
+    }
 }
