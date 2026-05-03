@@ -92,4 +92,13 @@ class Config {
     public static function all(): array {
         return self::$items;
     }
+
+    /**
+     * Retrieves the application secret from environment variables or configuration, returning an empty string if not set.
+     *
+     * @return string
+     */
+    public static function getSecret(): string {
+        return $_ENV['SECRET'] ?? self::get('app.secret') ?? '';
+    }
 }
