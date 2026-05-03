@@ -3,7 +3,18 @@ declare(strict_types = 1);
 
 namespace Pangio\Core\Http;
 
+/**
+ * Provides a static HTTP request utility for accessing and validating GET and POST data as well as determining the
+ * current request method.
+ *
+ * @author Julius Derigs <julius.derigs@pangio.de>
+ */
+
 class Request {
+    ####################################################################################################################
+    # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
+    ####################################################################################################################
+
     /**
      * Retrieves HTTP method (POST, GET, etc.)
      *
