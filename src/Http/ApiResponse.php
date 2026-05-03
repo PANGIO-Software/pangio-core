@@ -48,7 +48,7 @@ class ApiResponse {
      *
      * @return void
      */
-    #[NoReturn]public static function create(): void {
+    #[NoReturn]public static function created(): void {
         Response::json(self::CREATED, []);
     }
 
