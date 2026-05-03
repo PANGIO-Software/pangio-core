@@ -4,8 +4,21 @@ declare(strict_types = 1);
 namespace Pangio\Core\Http;
 
 use JetBrains\PhpStorm\NoReturn;
+use RuntimeException;
+use JsonException;
+
+/**
+ * Provides a static HTTP response utility for sending plain text or JSON responses and handling redirects with
+ * appropriate status codes.
+ *
+ * @author Julius Derigs <julius.derigs@pangio.de>
+ */
 
 class Response {
+    ####################################################################################################################
+    # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
+    ####################################################################################################################
+
     /**
      * Sends a plain text response.
      *
@@ -25,12 +38,17 @@ class Response {
      * @param int $statusCode
      * @return void
      */
-    public static function json(array $data, int $statusCode = 200): void {
+    public static function json(int $statusCode, array $data): void {
         http_response_code($statusCode);
 
         header('Content-Type: application/json');
 
-        echo json_encode($data);
+        try {
+            echo json_encode($data, JSON_THROW_ON_ERROR);
+        }
+        catch (JsonException $exception) {
+            throw new RuntimeException('[Response::json] ' . $exception->getMessage());
+        }
     }
 
     /**
