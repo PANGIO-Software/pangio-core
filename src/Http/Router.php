@@ -5,7 +5,18 @@ namespace Pangio\Core\Http;
 
 use Pangio\Core\System\Config;
 
+/**
+ * Provides a static routing utility that maps incoming HTTP requests to configured controller actions, handles dynamic
+ * route parameters, and resolves URLs based on a configurable base path.
+ *
+ * @author Julius Derigs <julius.derigs@pangio.de>
+ */
+
 class Router {
+    ####################################################################################################################
+    # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
+    ####################################################################################################################
+
     /**
      * Iterates through registered routes to resolve the current request, instantiating the corresponding controller
      * and executing its method, or returning a 404 error if no match is found.
@@ -57,6 +68,10 @@ class Router {
 
         return $baseURL . $uri;
     }
+
+    ####################################################################################################################
+    # --- PRIVATE METHODS -------------------------------------------------------------------------------------------- #
+    ####################################################################################################################
 
     /**
      * Matches the current request URL against a defined route pattern and executes the associated callback with any
