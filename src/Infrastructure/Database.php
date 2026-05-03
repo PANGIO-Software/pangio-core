@@ -6,40 +6,51 @@ namespace Pangio\Core\Infrastructure;
 use Pangio\Core\System\Config;
 use RuntimeException;
 use PDOException;
-use Exception;
 use PDO;
 
+/**
+ * Provides a static database utility that manages a PDO connection and offers simplified methods for executing
+ * parameterized queries and retrieving results.
+ *
+ * @author Julius Derigs <julius.derigs@pangio.de>
+ */
+
 class Database {
-    private string $host, $user, $pass, $db;
     private static ?PDO $instance = null;
+    private static string $host;
+    private static string $user;
+    private static string $pass;
+    private static string $db;
 
     public function __construct() {
         $config = Config::get('database');
 
-        $this->host = $_ENV['DB_HOST'] ?? $config['host'];
-        $this->user = $_ENV['DB_USER'] ?? $config['user'];
-        $this->pass = $_ENV['DB_PASS'] ?? $config['pass'];
-        $this->db   = $_ENV['DB_NAME'] ?? $config['name'];
+        self::$host = $_ENV['DB_HOST'] ?? $config['host'];
+        self::$user = $_ENV['DB_USER'] ?? $config['user'];
+        self::$pass = $_ENV['DB_PASS'] ?? $config['pass'];
+        self::$db = $_ENV['DB_NAME'] ?? $config['name'];
     }
+
+    ####################################################################################################################
+    # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
+    ####################################################################################################################
 
     /**
      * Returns a single PDO instance (singleton).
      *
      * @return PDO
      */
-    public function connect(): PDO {
+    public static function connect(): PDO {
         try {
-            $connection = new PDO(
-                "mysql:host=$this->host;dbname=$this->db", $this->user, $this->pass
-            );
+            $con = new PDO('mysql:host=' . self::$host . ';dbname=' . self::$db, self::$user, self::$pass);
 
-            $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $con->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-            self::$instance = $connection;
-
-        } catch (PDOException $exception) {
-            throw new RuntimeException('Database connection failed: ' . $exception->getMessage(), 0, $exception);
+            self::$instance = $con;
+        }
+        catch (PDOException $exception) {
+            throw new RuntimeException('Database connection failed :' . $exception->getMessage());
         }
 
         return self::$instance;
@@ -51,10 +62,9 @@ class Database {
      * @param string $query
      * @param array $params
      * @return array
-     * @throws Exception
      */
-    public function select(string $query, array $params = []) :array {
-        $stmt = $this->connect()->prepare($query);
+    public static function select(string $query, array $params = []): array {
+        $stmt = self::connect()->prepare($query);
         $stmt->execute($params);
 
         return $stmt->fetchAll();
@@ -66,11 +76,8 @@ class Database {
      * @param string $query
      * @param array $params
      * @return bool
-     * @throws Exception
      */
-    public function execute(string $query, array $params = []) :bool {
-        $stmt = $this->connect()->prepare($query);
-
-        return $stmt->execute($params);
+    public static function execute(string $query, array $params = []): bool {
+        return self::connect()->prepare($query)->execute($params);
     }
 }
