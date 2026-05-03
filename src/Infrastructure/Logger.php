@@ -6,12 +6,28 @@ namespace Pangio\Core\Infrastructure;
 use Pangio\Core\System\Config;
 use RuntimeException;
 
+/**
+ * Provides a static logging utility that writes timestamped log entries with types to daily log files, using
+ * configurable storage paths and basic file handling.
+ *
+ * @author Julius Derigs <julius.derigs@pangio.de>
+ */
+
 class Logger {
-    private string $logsDir;
+    /**
+     * Holds the path to the logs storage directory.
+     *
+     * @var string|mixed
+     */
+    private static string $logsDir;
 
     public function __construct() {
-        $this->logsDir = $_ENV['APP_LOGS_DIR'] ?? Config::get('app.logsDir');
+        self::$logsDir = $_ENV['APP_LOGS_DIR'] ?? Config::get('app.logsDir');
     }
+
+    ####################################################################################################################
+    # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
+    ####################################################################################################################
 
     /**
      * Writes a log entry with type and timestamp to a daily log file, creating or appending to the file and
@@ -21,12 +37,12 @@ class Logger {
      * @param string $message
      * @return void
      */
-    public function log(string $type, string $message) :void {
+    public static function log(string $type, string $message) :void {
         $date = date('Ymd');
         $timestamp = date('d.m.Y - H:i:s');
-        $path = dirname(__DIR__, 2) . "$this->logsDir/$date.log";
+        $path = dirname(__DIR__, 2) . self::$logsDir . "/$date.log";
 
-        $handle = fopen($path, 'a');
+        $handle = fopen($path, 'ab');
 
         if (!$handle) {
             throw new RuntimeException("Unable to open log file: $path");
