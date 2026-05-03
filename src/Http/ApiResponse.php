@@ -14,6 +14,7 @@ use JetBrains\PhpStorm\NoReturn;
 
 class ApiResponse {
     public const int OK = 200;
+    public const int CREATED = 201;
     public const int UNAUTHORIZED = 401;
     public const int NOT_FOUND = 404;
     public const int METHOD_NOT_ALLOWED = 405;
@@ -40,6 +41,15 @@ class ApiResponse {
         ]);
 
         exit;
+    }
+
+    /**
+     * Sends a JSON response with HTTP 201 (Created) and terminates script execution.
+     *
+     * @return void
+     */
+    #[NoReturn]public static function create(): void {
+        Response::json(self::CREATED, []);
     }
 
     /**
