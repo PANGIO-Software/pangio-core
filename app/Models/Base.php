@@ -27,11 +27,11 @@ class Base {
      */
     public static function all(array $wheres = []): array {
         try {
-            $query = 'SELECT ' . implode(', ', self::$fields) . ' FROM ' . self::$table;
+            $query = 'SELECT ' . implode(', ', static::$fields) . ' FROM ' . static::$table;
 
             if ($wheres) {
                 $clauses = array_map(static fn($field) => "$field = :$field", array_keys($wheres));
-                $query .= ' WHERE' . implode(' AND ', $clauses);
+                $query .= ' WHERE ' . implode(' AND ', $clauses);
             }
 
             return Database::select($query, $wheres);
@@ -49,7 +49,7 @@ class Base {
      */
     public static function find(int $id): array {
         try {
-            $query = 'SELECT ' . implode(', ', self::$fields) . ' FROM ' . self::$table . ' WHERE id = :id';
+            $query = 'SELECT ' . implode(', ', static::$fields) . ' FROM ' . static::$table . ' WHERE id = :id';
             $result = Database::select($query, [ 'id' => $id ]);
 
             return $result[0] ?? [];
@@ -70,12 +70,39 @@ class Base {
             $keys = array_keys($params);
             $fields = implode(', ', $keys);
             $placeholders = ':' . implode(', :', $keys);
-            $query = 'INSERT INTO ' . self::$table . " ($fields) VALUES ($placeholders)";
+            $query = 'INSERT INTO ' . static::$table . " ($fields) VALUES ($placeholders)";
 
             return Database::execute($query, $params);
         }
         catch (RuntimeException $exception) {
             throw new RuntimeException('[Base::insert()] ' . $exception->getMessage());
+        }
+    }
+
+    /**
+     * Updates a database record by ID using dynamically generated field assignments and parameterized queries.
+     *
+     * @param int $id
+     * @param array $params
+     * @return bool
+     */
+    public static function update(int $id, array $params): bool {
+        try {
+            $fields = array_map(
+                static fn($key) => "$key = :$key",
+                array_keys($params)
+            );
+
+            $set = implode(', ', $fields);
+
+            $query = 'UPDATE ' . static::$table . " SET $set WHERE id = :id";
+
+            $params['id'] = $id;
+
+            return Database::execute($query, $params);
+        }
+        catch (RuntimeException $exception) {
+            throw new RuntimeException('[Base::update()] ' . $exception->getMessage());
         }
     }
 }
