@@ -16,6 +16,7 @@ class ApiResponse {
     public const int OK = 200;
     public const int CREATED = 201;
     public const int UNAUTHORIZED = 401;
+    public const int FORBIDDEN = 403;
     public const int NOT_FOUND = 404;
     public const int METHOD_NOT_ALLOWED = 405;
     public const int CONFLICT = 409;
@@ -60,6 +61,22 @@ class ApiResponse {
      */
     #[NoReturn]public static function unauthorized(string $message = 'Unauthorized'):void {
         Response::json(self::UNAUTHORIZED, [
+            'message' => $message,
+            'success' => false,
+            'data' => []
+        ]);
+
+        exit;
+    }
+
+    /**
+     *  Sends a JSON response with HTTP 403 (Forbidden) and terminates script execution.
+     *
+     * @param string $message
+     * @return void
+     */
+    #[NoReturn]public static function forbidden(string $message = 'Forbidden'): void {
+        Response::json(self::FORBIDDEN, [
             'message' => $message,
             'success' => false,
             'data' => []
