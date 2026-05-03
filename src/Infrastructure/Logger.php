@@ -21,10 +21,6 @@ class Logger {
      */
     private static string $logsDir;
 
-    public function __construct() {
-        self::$logsDir = $_ENV['APP_LOGS_DIR'] ?? Config::get('app.logsDir');
-    }
-
     ####################################################################################################################
     # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
     ####################################################################################################################
@@ -38,9 +34,11 @@ class Logger {
      * @return void
      */
     public static function log(string $type, string $message) :void {
+        self::$logsDir = $_ENV['APP_LOGS_DIR'] ?? Config::get('app.logsDir');
+
         $date = date('Ymd');
         $timestamp = date('d.m.Y - H:i:s');
-        $path = dirname(__DIR__, 2) . self::$logsDir . "/$date.log";
+        $path = dirname(__DIR__, 2) . '/' . self::$logsDir . "/$date.log";
 
         $handle = fopen($path, 'ab');
 
