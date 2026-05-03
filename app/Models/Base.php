@@ -2,42 +2,37 @@
 namespace App\Models;
 
 use Pangio\Core\Infrastructure\Database;
-use Pangio\Core\Infrastructure\Logger;
-use Exception;
+
+/**
+ * Provides a base model abstraction with static methods for retrieving, finding, and inserting database records using
+ * predefined table and field definitions.
+ *
+ * @author Julius Derigs <julius.derigs@pangio.de>
+ */
 
 class Base {
-    protected Logger $logger;
-    protected string $table;
-    protected array $fields;
-    protected Database $db;
+    protected static string $table;
+    protected static array $fields;
 
-    public function __construct() {
-        $this->logger = new Logger();
-        $this->db = new Database();
-    }
+    ####################################################################################################################
+    # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
+    ####################################################################################################################
 
     /**
      * Retrieves all entries from the database table, filtered by where conditions.
      *
-     * @param array $wheres Assoziatives Array [Spalte => Wert]
+     * @param array $wheres
      * @return array
      */
-    public function all(array $wheres = []): array {
-        $sql = "SELECT " . implode(', ', $this->fields) . " FROM {$this->table}";
+    public static function all(array $wheres = []): array {
+        $query = 'SELECT ' . implode(', ', self::$fields) . ' FROM ' . self::$table;
 
-        if (!empty($wheres)) {
-            $clauses = array_map(fn($field) => "{$field} = :{$field}", array_keys($wheres));
-            $sql .= " WHERE " . implode(' AND ', $clauses);
+        if ($wheres) {
+            $clauses = array_map(static fn($field) => "$field = :$field", array_keys($wheres));
+            $query .= ' WHERE' . implode(' AND ', $clauses);
         }
 
-        try {
-            return $this->db->select($sql, $wheres);
-        }
-        catch (Exception $exception) {
-            $this->logger->log('error', 'Failed to fetch database data: ' . $exception->getMessage());
-
-            return [];
-        }
+        return Database::select($query, $wheres);
     }
 
     /**
@@ -46,19 +41,11 @@ class Base {
      * @param int $id
      * @return array
      */
-    public function find(int $id) :array {
-        $sql = "SELECT " . implode(', ', $this->fields) . " FROM {$this->table} WHERE id = :id";
+    public static function find(int $id): array {
+        $query = 'SELECT ' . implode(', ', self::$fields) . ' FROM ' . self::$table . ' WHERE id = :id';
+        $result = Database::select($query, [ 'id' => $id ]);
 
-        try {
-            $result = $this->db->select($sql, ['id' => $id]);
-
-            return $result[0] ?? [];
-        }
-        catch (Exception $exception) {
-            $this->logger->log('error', 'Failed to fetch database record: ' . $exception->getMessage());
-
-            return [];
-        }
+        return $result[0] ?? [];
     }
 
     /**
@@ -67,19 +54,12 @@ class Base {
      * @param array $params
      * @return bool
      */
-    public function insert(array $params) :bool {
+    public static function insert(array $params): bool {
         $keys = array_keys($params);
         $fields = implode(', ', $keys);
         $placeholders = ':' . implode(', :', $keys);
-        $sql = "INSERT INTO {$this->table} ({$fields}) VALUES ({$placeholders})";
+        $query = 'INSERT INTO ' . self::$table . " ($fields) VALUES ($placeholders)";
 
-        try {
-            return $this->db->execute($sql, $params);
-        }
-        catch (Exception $exception) {
-            $this->logger->log('error', 'Failed to insert database record: ' . $exception->getMessage());
-
-            return false;
-        }
+        return Database::execute($query, $params);
     }
 }
