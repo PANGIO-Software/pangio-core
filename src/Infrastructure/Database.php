@@ -6,6 +6,7 @@ namespace Pangio\Core\Infrastructure;
 use Pangio\Core\System\Config;
 use RuntimeException;
 use PDOException;
+use Exception;
 use PDO;
 
 /**
@@ -64,10 +65,15 @@ class Database {
      * @return array
      */
     public static function select(string $query, array $params = []): array {
-        $stmt = self::connect()->prepare($query);
-        $stmt->execute($params);
+        try {
+            $stmt = self::connect()->prepare($query);
+            $stmt->execute($params);
 
-        return $stmt->fetchAll();
+            return $stmt->fetchAll();
+        }
+        catch (Exception $exception) {
+            throw new RuntimeException('[Database::select()] ' . $exception->getMessage());
+        }
     }
 
     /**
@@ -78,6 +84,11 @@ class Database {
      * @return bool
      */
     public static function execute(string $query, array $params = []): bool {
-        return self::connect()->prepare($query)->execute($params);
+        try {
+            return self::connect()->prepare($query)->execute($params);
+        }
+        catch (Exception $exception) {
+            throw new RuntimeException('[Database::execute()] ' . $exception->getMessage());
+        }
     }
 }
