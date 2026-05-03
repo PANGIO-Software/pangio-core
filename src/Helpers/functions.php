@@ -4,6 +4,13 @@ use JetBrains\PhpStorm\NoReturn;
 use Pangio\Core\System\Config;
 use Pangio\Core\Http\Router;
 
+/**
+ * Provides a collection of global helper functions for URL generation, localization, data access, output escaping,
+ * string checks, and HTTP redirection.
+ *
+ * @author Julius Derigs <julius.derigs@pangio.de>
+ */
+
 if (!function_exists('baseURL')) {
     /**
      * Builds a URL out of the config baseURL and the given URI and returns it.
@@ -18,6 +25,9 @@ if (!function_exists('baseURL')) {
 
 if (!function_exists('trans')) {
     /**
+     * Retrieves a localized translation string by key, lazily loading language files per locale and replacing
+     * placeholders with provided values.
+     *
      * @param string $key
      * @param array $replace
      * @return string
@@ -28,7 +38,6 @@ if (!function_exists('trans')) {
         static $lines = [];
 
         if (!isset($lines[$locale])) {
-            $path = __DIR__ . "/../Lang/{$locale}.php";
             $path = dirname(__DIR__, 2) . "/app/Lang/$locale.php";
 
             $lines[$locale] = file_exists($path)
@@ -48,6 +57,8 @@ if (!function_exists('trans')) {
 
 if (!function_exists('dataGet')) {
     /**
+     * Retrieves a nested value from an array using dot notation, returning a default if any segment is missing.
+     *
      * @param array $array
      * @param string $key
      * @param mixed|null $default
