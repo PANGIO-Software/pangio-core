@@ -3,6 +3,10 @@ declare(strict_types = 1);
 
 namespace Pangio\Core\Http;
 
+use Pangio\Core\Infrastructure\Logger;
+use RuntimeException;
+use JsonException;
+
 /**
  * Provides a static HTTP request utility for accessing and validating GET and POST data as well as determining the
  * current request method.
@@ -87,6 +91,22 @@ class Request {
         $serverKey = 'HTTP_' . $key;
 
         return $_SERVER[$serverKey] ?? $default;
+    }
+
+    /**
+     * Parses the raw HTTP request body as JSON and returns it as an array, logging and throwing an exception on failure.
+     *
+     * @return array
+     */
+    public static function parseJsonBody(): array {
+        try {
+            return json_decode(file_get_contents('php://input'), true, 512, JSON_THROW_ON_ERROR);
+        }
+        catch (JsonException $exception) {
+            Logger::log('error', '[Request::getInput()] ' . $exception->getMessage());
+
+            throw new RuntimeException('[Request::getInput()] ' . $exception->getMessage());
+        }
     }
 
     /**
