@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pangio\Core\Http;
 
@@ -11,7 +11,6 @@ use Pangio\Core\System\Config;
  *
  * @author Julius Derigs <julius.derigs@pangio.de>
  */
-
 class Router {
     ####################################################################################################################
     # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
@@ -23,7 +22,7 @@ class Router {
      *
      * @return void
      */
-    public static function run() :void {
+    public static function run(): void {
         $routes = Config::get('routes');
         $route = false;
 
@@ -36,7 +35,7 @@ class Router {
                 $class = new $controller;
 
                 if (is_numeric($param)) {
-                    $param = (int) $param;
+                    $param = (int)$param;
                 }
                 if ($param !== null) {
                     $class->$method($param);
@@ -46,7 +45,7 @@ class Router {
             });
 
             if ($route) {
-               break;
+                break;
             }
         }
 
@@ -63,7 +62,7 @@ class Router {
      * @param string $uri
      * @return string
      */
-    public static function baseURL(string $uri = '') :string {
+    public static function baseURL(string $uri = ''): string {
         $baseURL = $_ENV['BASE_URL'] ?? Config::get('app.baseURL');
 
         return $baseURL . $uri;
@@ -81,7 +80,7 @@ class Router {
      * @param mixed $callback
      * @return bool
      */
-    private static function router(string $route, mixed $callback) :bool {
+    private static function router(string $route, mixed $callback): bool {
         $fullURL = parse_url(self::getFullURL(), PHP_URL_PATH);
         $urlParts = explode('/', trim(str_replace(self::baseURL(), '', $fullURL), '/'));
         $requestedRoute = implode('/', $urlParts);
@@ -100,7 +99,7 @@ class Router {
      *
      * @return string
      */
-    private static function getFullURL() :string {
+    private static function getFullURL(): string {
         return self::baseURL($_SERVER['REQUEST_URI'] ?? '/');
     }
 }

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pangio\Core\Http;
 
@@ -11,7 +11,6 @@ use JetBrains\PhpStorm\NoReturn;
  *
  * @author Julius Derigs <julius.derigs@pangio.de>
  */
-
 class ApiResponse {
     public const int OK = 200;
     public const int CREATED = 201;
@@ -34,7 +33,8 @@ class ApiResponse {
      * @param string $message
      * @return void
      */
-    #[NoReturn]public static function ok(array $data = [], string $message = 'OK'): void {
+    #[NoReturn]
+    public static function ok(array $data = [], string $message = 'OK'): void {
         Response::json(self::OK, [
             'message' => $message,
             'success' => true,
@@ -49,7 +49,8 @@ class ApiResponse {
      *
      * @return void
      */
-    #[NoReturn]public static function created(): void {
+    #[NoReturn]
+    public static function created(): void {
         Response::json(self::CREATED, []);
     }
 
@@ -59,7 +60,8 @@ class ApiResponse {
      * @param string $message
      * @return void
      */
-    #[NoReturn]public static function unauthorized(string $message = 'Unauthorized'):void {
+    #[NoReturn]
+    public static function unauthorized(string $message = 'Unauthorized'): void {
         Response::json(self::UNAUTHORIZED, [
             'message' => $message,
             'success' => false,
@@ -75,7 +77,8 @@ class ApiResponse {
      * @param string $message
      * @return void
      */
-    #[NoReturn]public static function forbidden(string $message = 'Forbidden'): void {
+    #[NoReturn]
+    public static function forbidden(string $message = 'Forbidden'): void {
         Response::json(self::FORBIDDEN, [
             'message' => $message,
             'success' => false,
@@ -91,7 +94,8 @@ class ApiResponse {
      * @param string $message
      * @return void
      */
-    #[NoReturn]public static function notFound(string $message = 'Not found'): void {
+    #[NoReturn]
+    public static function notFound(string $message = 'Not found'): void {
         Response::json(self::NOT_FOUND, [
             'message' => $message,
             'success' => false,
@@ -107,7 +111,8 @@ class ApiResponse {
      * @param string $message
      * @return void
      */
-    #[NoReturn]public static function methodNotAllowed(string $message = 'Method Not Allowed'): void {
+    #[NoReturn]
+    public static function methodNotAllowed(string $message = 'Method Not Allowed'): void {
         Response::json(self::METHOD_NOT_ALLOWED, [
             'message' => $message,
             'success' => false,
@@ -123,7 +128,8 @@ class ApiResponse {
      * @param string $message
      * @return void
      */
-    #[NoReturn]public static function conflict(string $message = 'Conflict'): void {
+    #[NoReturn]
+    public static function conflict(string $message = 'Conflict'): void {
         Response::json(self::CONFLICT, [
             'message' => $message,
             'success' => false,
@@ -139,7 +145,8 @@ class ApiResponse {
      * @param string $message
      * @return void
      */
-    #[NoReturn]public static function unprocessableEntity(array $missing = [], string $message = 'Unprocessable Entity'): void {
+    #[NoReturn]
+    public static function unprocessableEntity(array $missing = [], string $message = 'Unprocessable Entity'): void {
         Response::json(self::UNPROCESSABLE_ENTITY, [
             'message' => $message,
             'success' => false,
@@ -155,7 +162,8 @@ class ApiResponse {
      * @param string $message
      * @return void
      */
-    #[NoReturn]public static function internalServerError(string $message = 'Internal Server Error'): void {
+    #[NoReturn]
+    public static function internalServerError(string $message = 'Internal Server Error'): void {
         Response::json(self::INTERNAL_SERVER_ERROR, [
             'message' => $message,
             'success' => false,

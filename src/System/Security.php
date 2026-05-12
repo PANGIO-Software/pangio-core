@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pangio\Core\System;
 
@@ -8,7 +8,6 @@ namespace Pangio\Core\System;
  *
  * @author Julius Derigs <julius.derigs@pangio.de>
  */
-
 class Security {
     ####################################################################################################################
     # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #

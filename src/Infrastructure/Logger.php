@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pangio\Core\Infrastructure;
 
@@ -12,7 +12,6 @@ use RuntimeException;
  *
  * @author Julius Derigs <julius.derigs@pangio.de>
  */
-
 class Logger {
     /**
      * Holds the path to the logs storage directory.
@@ -33,7 +32,7 @@ class Logger {
      * @param string $message
      * @return void
      */
-    public static function log(string $type, string $message) :void {
+    public static function log(string $type, string $message): void {
         self::$logsDir = $_ENV['APP_LOGS_DIR'] ?? Config::get('app.logsDir');
 
         $date = date('Ymd');

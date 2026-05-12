@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pangio\Core\Application;
 
@@ -12,7 +12,6 @@ use RuntimeException;
  *
  * @author Julius Derigs <julius.derigs@pangio.de>
  */
-
 class View {
     ####################################################################################################################
     # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #

@@ -32,7 +32,7 @@ if (!function_exists('trans')) {
      * @param array $replace
      * @return string
      */
-    function trans(string $key, array $replace = []) :string {
+    function trans(string $key, array $replace = []): string {
         $locale = $_ENV['APP_LOCALE'] ?? Config::get('app.locale') ?? 'de';
 
         static $lines = [];
@@ -64,7 +64,7 @@ if (!function_exists('dataGet')) {
      * @param mixed|null $default
      * @return mixed
      */
-    function dataGet(array $array, string $key, mixed $default = null) :mixed {
+    function dataGet(array $array, string $key, mixed $default = null): mixed {
         foreach (explode('.', $key) as $segment) {
             if (!is_array($array) || !array_key_exists($segment, $array)) {
                 return $default;
@@ -83,7 +83,7 @@ if (!function_exists('esc')) {
      * @param string $string
      * @return string
      */
-    function esc(string $string) :string {
+    function esc(string $string): string {
         return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
     }
 }
@@ -96,7 +96,7 @@ if (!function_exists('contains')) {
      * @param string $needle
      * @return bool
      */
-    function contains(string $haystack, string $needle) :bool {
+    function contains(string $haystack, string $needle): bool {
         return str_contains($haystack, $needle);
     }
 }
@@ -108,13 +108,14 @@ if (!function_exists('redirect')) {
      * @param string $destination
      * @return void
      */
-    #[NoReturn]function redirect(string $destination) :void {
+    #[NoReturn]
+    function redirect(string $destination): void {
         if (contains($destination, 'http') || contains($destination, 'https')) {
             header("Location: $destination");
             exit;
         }
 
-        header('Location: ' . baseURL($destination) );
+        header('Location: ' . baseURL($destination));
         exit;
 
     }

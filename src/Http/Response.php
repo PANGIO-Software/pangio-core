@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pangio\Core\Http;
 
@@ -13,7 +13,6 @@ use JsonException;
  *
  * @author Julius Derigs <julius.derigs@pangio.de>
  */
-
 class Response {
     ####################################################################################################################
     # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
@@ -45,8 +44,7 @@ class Response {
 
         try {
             echo json_encode($data, JSON_THROW_ON_ERROR);
-        }
-        catch (JsonException $exception) {
+        } catch (JsonException $exception) {
             throw new RuntimeException('[Response::json] ' . $exception->getMessage());
         }
     }
@@ -58,7 +56,8 @@ class Response {
      * @param int $statusCode
      * @return void
      */
-    #[NoReturn]public static function redirect(string $url, int $statusCode = 302): void {
+    #[NoReturn]
+    public static function redirect(string $url, int $statusCode = 302): void {
         http_response_code($statusCode);
         header("Location: $url");
         exit;

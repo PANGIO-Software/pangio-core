@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pangio\Core\Http;
 
@@ -13,7 +13,6 @@ use JsonException;
  *
  * @author Julius Derigs <julius.derigs@pangio.de>
  */
-
 class Request {
     ####################################################################################################################
     # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
@@ -24,7 +23,7 @@ class Request {
      *
      * @return string
      */
-    public static function method() :string {
+    public static function method(): string {
         return strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
     }
 
@@ -35,7 +34,7 @@ class Request {
      * @param mixed|null $default
      * @return mixed
      */
-    public static function get(string $key, mixed $default = null) :mixed {
+    public static function get(string $key, mixed $default = null): mixed {
         return $_GET[$key] ?? $default;
     }
 
@@ -46,7 +45,7 @@ class Request {
      * @param mixed|null $default
      * @return mixed
      */
-    public static function post(string $key, mixed $default = null) :mixed {
+    public static function post(string $key, mixed $default = null): mixed {
         return $_POST[$key] ?? $default;
     }
 
@@ -55,7 +54,7 @@ class Request {
      *
      * @return array
      */
-    public static  function all() :array {
+    public static function all(): array {
         return array_merge($_GET, $_POST);
     }
 
@@ -66,7 +65,7 @@ class Request {
      * @param string $method
      * @return bool
      */
-    public static function validate(array $requiredFields, $method = 'POST') :bool {
+    public static function validate(array $requiredFields, $method = 'POST'): bool {
         $input = $method === 'POST' ? $_POST : $_GET;
 
         foreach ($requiredFields as $field) {
@@ -101,8 +100,7 @@ class Request {
     public static function parseJsonBody(): array {
         try {
             return json_decode(file_get_contents('php://input'), true, 512, JSON_THROW_ON_ERROR);
-        }
-        catch (JsonException $exception) {
+        } catch (JsonException $exception) {
             Logger::log('error', '[Request::getInput()] ' . $exception->getMessage());
 
             throw new RuntimeException('[Request::getInput()] ' . $exception->getMessage());

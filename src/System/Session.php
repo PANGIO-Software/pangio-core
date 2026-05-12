@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pangio\Core\System;
 
@@ -8,14 +8,17 @@ namespace Pangio\Core\System;
  *
  * @author Julius Derigs <julius.derigs@pangio.de>
  */
-
 class Session {
+    ####################################################################################################################
+    # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
+    ####################################################################################################################
+
     /**
      * Starts the session if it is not already active.
      *
      * @return void
      */
-    public static function start() :void {
+    public static function start(): void {
         if (PHP_SAPI === 'cli') {
             return;
         }
@@ -32,7 +35,7 @@ class Session {
      * @param mixed $value Value to store
      * @return void
      */
-    public static function set(string $key, mixed $value) :void {
+    public static function set(string $key, mixed $value): void {
         $_SESSION[$key] = $value;
     }
 
@@ -43,7 +46,7 @@ class Session {
      * @param mixed $default Default value if key does not exist
      * @return mixed
      */
-    public static function get(string $key, mixed $default = null) :mixed {
+    public static function get(string $key, mixed $default = null): mixed {
         return $_SESSION[$key] ?? $default;
     }
 
@@ -53,7 +56,7 @@ class Session {
      * @param string $key Session key
      * @return bool
      */
-    public static function has(string $key) :bool {
+    public static function has(string $key): bool {
         return array_key_exists($key, $_SESSION);
     }
 
@@ -63,7 +66,7 @@ class Session {
      * @param string $key Session key
      * @return void
      */
-    public static function remove(string $key) :void {
+    public static function remove(string $key): void {
         unset($_SESSION[$key]);
     }
 
@@ -72,7 +75,7 @@ class Session {
      *
      * @return void
      */
-    public static function clear() :void {
+    public static function clear(): void {
         $_SESSION = [];
     }
 
@@ -81,7 +84,7 @@ class Session {
      *
      * @return void
      */
-    public static function destroy() :void {
+    public static function destroy(): void {
         if (session_status() === PHP_SESSION_ACTIVE) {
             $_SESSION = [];
             session_destroy();
@@ -95,7 +98,7 @@ class Session {
      * @param string $message
      * @return void
      */
-    public static function setFlashMessage(string $type, string $message) :void {
+    public static function setFlashMessage(string $type, string $message): void {
         self::set('flashMessage', [
             'type' => esc($type),
             'message' => esc($message)
@@ -107,7 +110,7 @@ class Session {
      *
      * @return array|null
      */
-    public static function getFlashMessage() :?array {
+    public static function getFlashMessage(): ?array {
         $flashMessage = self::get('flashMessage');
 
         self::remove('flashMessage');

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pangio\Core\System;
 
@@ -8,7 +8,6 @@ namespace Pangio\Core\System;
  *
  * @author Julius Derigs <julius.derigs@pangio.de>
  */
-
 class Config {
     /**
      * Internal cache of loaded configuration data.
@@ -22,7 +21,7 @@ class Config {
      *
      * @return void
      */
-    public static function load() :void {
+    public static function load(): void {
         $configDir = $_ENV['APP_CONFIG_DIR'] ?? 'config';
         $path = dirname(__DIR__, 2) . "/$configDir";
 
@@ -47,7 +46,7 @@ class Config {
      * @param mixed|null $default
      * @return mixed
      */
-    public static function get(string $key, mixed $default = null) :mixed {
+    public static function get(string $key, mixed $default = null): mixed {
         $segments = explode('.', $key);
         $value = self::$items;
 
@@ -69,7 +68,7 @@ class Config {
      * @param mixed $value
      * @return void
      */
-    public static function set(string $key, mixed $value) :void {
+    public static function set(string $key, mixed $value): void {
         $segments = explode('.', $key);
         $temp = &self::$items;
 

@@ -1,11 +1,16 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pangio\Core\System;
 
 use Pangio\Core\Http\Router;
 use Dotenv\Dotenv;
 
+/**
+ * Core application kernel responsible for bootstrapping environment, configuration, session handling, and routing.
+ *
+ * @author Julius Derigs <julius.derigs@pangio.de>
+ */
 class Kernel {
     /**
      * Indicates whether the kernel has already been booted.
@@ -14,16 +19,29 @@ class Kernel {
      */
     private static bool $booted = false;
 
-    public static function run() :void {
+    ####################################################################################################################
+    # --- PUBLIC METHODS --------------------------------------------------------------------------------------------- #
+    ####################################################################################################################
+
+    /**
+     * Starts the application kernel and triggers the bootstrapping process.
+     *
+     * @return void
+     */
+    public static function run(): void {
         self::boot();
     }
+
+    ####################################################################################################################
+    # --- PRIVATE METHODS -------------------------------------------------------------------------------------------- #
+    ####################################################################################################################
 
     /**
      * Bootstraps all core systems of the framework.
      *
      * @return void
      */
-    private static function boot() :void {
+    private static function boot(): void {
         if (self::$booted) {
             return;
         }
@@ -41,7 +59,7 @@ class Kernel {
      *
      * @return void
      */
-    private static function loadEnv() :void {
+    private static function loadEnv(): void {
         $path = dirname(__DIR__, 2);
 
         if (!file_exists("$path/.env")) {
@@ -57,7 +75,7 @@ class Kernel {
      *
      * @return void
      */
-    private static function loadConfig() :void {
+    private static function loadConfig(): void {
         Config::load();
     }
 
@@ -66,7 +84,7 @@ class Kernel {
      *
      * @return void
      */
-    private static function loadSession() :void {
+    private static function loadSession(): void {
         Session::start();
     }
 
@@ -75,7 +93,7 @@ class Kernel {
      *
      * @return void
      */
-    private static function runRouter() :void {
+    private static function runRouter(): void {
         Router::run();
     }
 }

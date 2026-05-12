@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pangio\Core\Infrastructure;
 
@@ -15,7 +15,6 @@ use PDO;
  *
  * @author Julius Derigs <julius.derigs@pangio.de>
  */
-
 class Database {
     private static ?PDO $instance = null;
     private static string $host;
@@ -47,8 +46,7 @@ class Database {
             $con->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
             self::$instance = $con;
-        }
-        catch (PDOException $exception) {
+        } catch (PDOException $exception) {
             throw new RuntimeException('Database connection failed :' . $exception->getMessage());
         }
 
@@ -68,8 +66,7 @@ class Database {
             $stmt->execute($params);
 
             return $stmt->fetchAll();
-        }
-        catch (Exception $exception) {
+        } catch (Exception $exception) {
             throw new RuntimeException('[Database::select()] ' . $exception->getMessage());
         }
     }
@@ -84,8 +81,7 @@ class Database {
     public static function execute(string $query, array $params = []): bool {
         try {
             return self::connect()->prepare($query)->execute($params);
-        }
-        catch (Exception $exception) {
+        } catch (Exception $exception) {
             throw new RuntimeException('[Database::execute()] ' . $exception->getMessage());
         }
     }
