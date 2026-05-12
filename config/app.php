@@ -5,5 +5,6 @@ return [
     'environment' => 'development',
     'locale' => 'en',
     'logsDir' => '/storage/Logs/',
-    'secret' => ''
+    'secret' => '',
+    'apiBaseURL' => ''
 ];
